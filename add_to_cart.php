@@ -12,13 +12,13 @@ if (isset($_POST['product_id'])) {
 
     // Voeg het product toe aan de winkelwagen
     if (isset($_SESSION['cart'][$product_id])) {
-        $_SESSION['cart'][$product_id] += 1; // Verhoog de hoeveelheid als het product al in de winkelwagen zit
+        $_SESSION['cart'][$product_id] += 1; 
     } else {
-        $_SESSION['cart'][$product_id] = 1; // Voeg het product toe aan de winkelwagen
+        $_SESSION['cart'][$product_id] = 1; 
     }
 
-    echo "success"; // Geef een succesbericht terug
+    echo "success"; 
 } else {
-    echo "error"; // Geef een foutmelding terug als er geen product_id is
+    echo "error"; 
 }
 ?>

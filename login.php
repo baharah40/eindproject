@@ -44,7 +44,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f1f1f1; /* Lichtgrijze achtergrond */
+    background: #f1f1f1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -53,7 +53,7 @@ body {
 
 /* Formulier container */
 .form-container {
-    background-color: #ffffff; /* Witte achtergrond voor het formulier */
+    background-color: #ffffff; 
     padding: 40px 30px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -65,7 +65,7 @@ body {
 /* Koptekst */
 .form-container h1 {
     margin-bottom: 20px;
-    color: #5d5d5d; /* Donkergrijze kleur voor de tekst */
+    color: #5d5d5d;
     font-size: 32px;
     font-weight: 600;
 }
@@ -76,7 +76,7 @@ label {
     text-align: left;
     margin-bottom: 5px;
     font-weight: 600;
-    color: #888; /* Lichtgrijze kleur voor labels */
+    color: #888;
 }
 
 input[type="text"],
@@ -92,13 +92,13 @@ input[type="password"] {
 }
 
 input:focus {
-    border-color: #d0a3f5; /* Lavendelkleurige focusrand */
+    border-color: #d0a3f5;
     outline: none;
 }
 
 /* Knoppen */
 button {
-    background-color:rgb(62, 61, 62); /* Lavendelkleur voor de knop */
+    background-color:rgb(62, 61, 62);
     color: white;
     padding: 12px 20px;
     border: none;
@@ -110,21 +110,21 @@ button {
 }
 
 button:hover {
-    background-color:rgb(132, 131, 133); /* Donkerder lavendel bij hover */
+    background-color:rgb(132, 131, 133); 
 }
 
 /* Links onder het formulier */
 .continue-shopping, .back-button {
     display: inline-block;
     margin-top: 20px;
-    color:rgb(11, 11, 11); /* Lavendelkleur voor links */
+    color:rgb(11, 11, 11);
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
 .continue-shopping:hover, .back-button:hover {
-    color:rgb(220, 217, 217); /* Donkerder lavendel bij hover */
+    color:rgb(220, 217, 217); 
 }
 
 /* Berichtweergave */
@@ -137,13 +137,13 @@ button:hover {
 }
 
 .message.success {
-    background-color: #e8f5e9; /* Zeer lichtgroene achtergrond voor succesberichten */
-    color: #388e3c; /* Donkergroen voor succesbericht */
+    background-color: #e8f5e9; 
+    color: #388e3c; 
 }
 
 .message.error {
-    background-color: #ffebee; /* Zeer lichtroze achtergrond voor foutberichten */
-    color: #d32f2f; /* Donkerrood voor foutbericht */
+    background-color: #ffebee; 
+    color: #d32f2f; 
 }
 </style>
 <body>

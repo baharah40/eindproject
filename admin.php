@@ -74,7 +74,7 @@ if (isset($_POST['delete_product'])) {
     $stmt->execute();
     $result = $stmt->get_result();
     while ($row = $result->fetch_assoc()) {
-        unlink('images/' . $row['afbeelding']); // Verwijder afbeelding van server
+        unlink('images/' . $row['afbeelding']); 
     }
     $stmt->close();
 
@@ -166,7 +166,19 @@ h1, h2 {
     padding: 20px;
     box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
 }
-
+.close-menu-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 1101;
+    padding: 0;
+    line-height: 1;
+}
 .hamburger-menu.open {
     transform: translateX(0);
 }
@@ -349,16 +361,14 @@ h1, h2 {
 
     </style>
     <script>
-        // Toggle de zichtbaarheid van het hamburger-menu
         function toggleMenu() {
             var menu = document.getElementById('hamburger-menu');
-            menu.classList.toggle('open'); // Hiermee open of sluit je het menu
+            menu.classList.toggle('open'); 
         }
 
-        // Sluit het menu wanneer je op de sluitknop drukt
         function closeMenu() {
             var menu = document.getElementById('hamburger-menu');
-            menu.classList.remove('open'); // Hiermee sluit je het menu
+            menu.classList.remove('open');
         }
 
         // Functie voor bevestigen van de verwijderactie
@@ -370,13 +380,15 @@ h1, h2 {
 <body>
 <button class="hamburger-button" onclick="toggleMenu()">☰ Menu</button>
 <div class="hamburger-menu" id="hamburger-menu">
-    <button onclick="closeMenu()">✕</button>
+    <button class="close-menu-button" onclick="closeMenu()">✕</button>
     <h2>Admin Panel</h2>
     <ul>
         <li><a href="?section=products">Producten beheren</a></li>
         <li><a href="add_product.php">Nieuw Product Toevoegen</a></li>
         <li><a href="socialMedia-link.php">Sociale media links</a></li>
         <li><a href="index.php">Terug naar Webshop</a></li>
+         <li><a href="beoordelingen_beheer.php">Beoordelingsbeheer</a></li>
+        <li><a href="gebruikers_beheer.php">Gebruikersbeheer</a></li>
     </ul>
 </div>
 <div class="container">
@@ -395,7 +407,7 @@ h1, h2 {
             <h2><?= htmlspecialchars($row['naam']) ?></h2>
             <div class="product-images">
     <?php 
-    $stmt->data_seek(0); // Reset resultaat pointer
+    $stmt->data_seek(0); 
     while ($img = $afbeeldingen_result->fetch_assoc()):
         ?>
         <div class="small-images" style="position: relative;">

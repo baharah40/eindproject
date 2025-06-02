@@ -5,7 +5,7 @@ $product = null;
 $message = '';
 
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']); // Veiligere manier om ID te gebruiken
+    $id = intval($_GET['id']); 
     $sql = "SELECT naam, prijs, afbeelding, beschrijving FROM producten WHERE id = $id";
     $result = $conn->query($sql);
     if ($result && $result->num_rows > 0) {

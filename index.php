@@ -4,7 +4,7 @@ session_start();
 
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT gebruikersnaam, is_admin FROM gebruikers WHERE id = ?";
+    $sql = "SELECT gebruikersnaam, is_admin, profiel_foto FROM gebruikers WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -35,81 +35,20 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
-// Haal social media op
-$socialMediaLinks = $conn->query("SELECT name, link FROM social_media_links");
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>CarryChic</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Favicon link -->
+<link rel="icon" type="images/png" href="favicon.png" sizes="32x32">
+
     <style>
-        /* CSS blijft exact zoals je gaf, geen wijzigingen */
-     /* Social Media Links Styling */
-     .social-media-links {
-            padding: 20px;
-            text-align: center;
-        }
 
-        .footer-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            padding: 20px;
-        }
-
-        .footer-section {
-            flex: 1;
-            padding: 10px;
-            max-width: 300px;
-        }
-
-        .footer-section h2 {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        .social-media-links ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-media-links ul li {
-            display: inline;
-        }
-
-        .social-media-links a {
-            text-decoration: none;
-            color: rgb(254, 254, 254);
-            font-weight: bold;
-            padding: 8px 12px;
-            border: 1px solid #007bff;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .social-media-links a:hover {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-        }
-
-        /* Knoppen naast elkaar */
-        .product-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
 
         /* Winkelwagen knop styling */
         .add-to-cart-button {
@@ -150,65 +89,120 @@ $socialMediaLinks = $conn->query("SELECT name, link FROM social_media_links");
         }
 
         .wishlist-button:hover {
-            background-color:rgb(171, 163, 163);
+            background-color: rgb(171, 163, 163);
         }
+        /* Profielfoto in header */
+        .profielfoto-header {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            vertical-align: middle;
+        }
+        .nav-label {
+    font-size: 11px;
+    text-decoration: underline;
+    margin-left: 4px;
+    vertical-align: middle;
+    color: inherit;
+}
+.cart-button, .logout-button, .login-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+}
+.cart-button:hover,
+.logout-button:hover,
+.login-button:hover {
+    background-color: transparent !important;
+    cursor: pointer;
+}
     </style>
 </head>
+
 <body>
-<div class="container">
-    <div class="header">
-        <div class="header-left">
-            <?php if ($user): ?>
-                <p>Welkom, <?php echo htmlspecialchars($user['gebruikersnaam']); ?>!</p>
-            <?php endif; ?>
-        </div>
-        <div class="header-right">
-            <a href='winkelwagen.php' class='cart-button'>Winkelwagen <i class='fas fa-shopping-cart'></i></a>
-            <a href='wishlist.php' class='cart-button'>Wishlist <i class='fas fa-heart'></i></a>
-            <?php if ($user && $user['is_admin']): ?>
-                <form method='GET' action='admin.php' style='display: inline;'>
-                    <button type='submit' class='admin-button'>Admin Panel</button>
-                </form>
-            <?php endif; ?>
-            <?php if ($user): ?>
-                <form method='POST' action='logout.php' style='display: inline;'>
-                    <button type='submit' class='logout-button'>Uitloggen</button>
-                </form>
-            <?php else: ?>
-                <a href='login.php' class='login-button'>Inloggen</a>
-            <?php endif; ?>
-        </div>
-    </div>
-
-    <h1>CarryChic</h1>
-    <div class='product-list'>
-        <?php foreach ($producten as $product): ?>
-            <div class='product-item'>
-                <a href='product_detail.php?id=<?= $product['id'] ?>'>
-                    <?php if (!empty($product['afbeelding'])): ?>
-                        <img src='images/<?= htmlspecialchars($product['afbeelding']) ?>' alt='<?= htmlspecialchars($product['naam']) ?>'>
-                    <?php else: ?>
-                        <img src='images/placeholder.png' alt='Geen afbeelding'>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <?php if ($user): ?>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <?php if (!empty($user['profiel_foto'])): ?>
+                        <img src="profile_images/<?= htmlspecialchars($user['profiel_foto']) ?>" alt="profile_foto" class="profielfoto-header" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
                     <?php endif; ?>
-                    <div class='product-info'>
-                        <h2><?= htmlspecialchars($product['naam']) ?></h2>
-                        <p>€<?= htmlspecialchars($product['prijs']) ?></p>
-                    </div>
-                </a>
-                <div class='product-buttons'>
-                    <a href='winkelwagen.php?id=<?= $product['id'] ?>' class='add-to-cart-button'>
-                        <i class='fas fa-shopping-cart'></i>
-                    </a>
-                    <a href='wishlist.php?id=<?= $product['id'] ?>' class='wishlist-button'>
-                        <i class='fas fa-heart'></i>
-                    </a>
+                    <p>Welkom, <?= htmlspecialchars($user['gebruikersnaam']); ?>!</p>
                 </div>
+                <?php endif; ?>
             </div>
-        <?php endforeach; ?>
-    </div>
+           <div class="header-right">
+    <a href="index.php" class="cart-button">
+        <i class="fas fa-home"></i>
+        <span class="nav-label">Home</span>
+    </a>
+    <a href="account_aanmak.php" class="cart-button">
+        <i class="fas fa-user"></i>
+        <span class="nav-label">Account</span>
+    </a>
+    <a href="winkelwagen.php" class="cart-button">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="nav-label">Winkelwagen</span>
+    </a>
+    <a href="wishlist.php" class="cart-button">
+        <i class="fas fa-heart"></i>
+        <span class="nav-label">Wishlist</span>
+    </a>
+    <?php if ($user && $user['is_admin']): ?>
+        <form method='GET' action='admin.php' style='display:inline;'>
+            <button type='submit' class='cart-button' title='Admin' style='background:none; border:none; cursor:pointer;'>
+                <i class='fas fa-user-shield'></i>
+                <span class="nav-label">Admin</span>
+            </button>
+        </form>
+    <?php endif; ?>
+    <?php if ($user): ?>
+        <form method='POST' action='logout.php' style='display:inline;'>
+            <button type='submit' class='logout-button' title='Uitloggen' style='background:none; border:none; cursor:pointer;'>
+                <i class='fas fa-sign-out-alt'></i>
+                <span class="nav-label">Uitloggen</span>
+            </button>
+        </form>
+    <?php else: ?>
+        <a href='login.php' class='login-button'>
+            <span class="nav-label">Inloggen</span>
+        </a>
+    <?php endif; ?>
 </div>
-<?php include 'footer.php'; ?>
+        </div>
 
+        <h1>CarryChic</h1>
+        <div class='product-list'>
+            <?php foreach ($producten as $product): ?>
+                <div class='product-item'>
+                    <a href='product_detail.php?id=<?= $product['id'] ?>'>
+                        <?php if (!empty($product['afbeelding'])): ?>
+                            <img src='images/<?= htmlspecialchars($product['afbeelding']) ?>' alt='<?= htmlspecialchars($product['naam']) ?>'>
+                        <?php else: ?>
+                            <img src='images/placeholder.png' alt='Geen afbeelding'>
+                        <?php endif; ?>
+                        <div class='product-info'>
+                            <h2><?= htmlspecialchars($product['naam']) ?></h2>
+                            <p>€<?= htmlspecialchars($product['prijs']) ?></p>
+                        </div>
+                    </a>
+                    <div class='product-buttons'>
+                       <a href='product_detail.php?id=<?= $product['id'] ?>' class='add-to-cart-button'>
+                            <i class='fas fa-shopping-cart'></i>
+                        </a>
+                        <a href='wishlist.php?id=<?= $product['id'] ?>' class='wishlist-button'>
+                            <i class='fas fa-heart'></i>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php include 'footer.php'; ?>
+    
+    <script src="https://www.chatbase.co/embed.min.js" id="chatbase-script" defer></script>
 
 </body>
 </html>

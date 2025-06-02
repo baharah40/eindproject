@@ -4,7 +4,7 @@ session_start();
 
 // Voeg product toe aan wishlist
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']); // Beveiliging tegen SQL-injectie
+    $id = intval($_GET['id']);
     if (!isset($_SESSION['wishlist'])) {
         $_SESSION['wishlist'] = [];
     }
@@ -42,7 +42,7 @@ if (!empty($_SESSION['wishlist'])) {
         if ($img_row = $img_result->fetch_assoc()) {
             $product['afbeelding'] = $img_row['afbeelding'];
         } else {
-            $product['afbeelding'] = 'placeholder.png'; // Fallback
+            $product['afbeelding'] = 'placeholder.png';
         }
 
         $producten_in_wishlist[] = $product;

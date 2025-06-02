@@ -28,7 +28,7 @@ if (isset($_GET['id'])) {
         $datum = date('Y-m-d H:i:s');
         $sql_review = "INSERT INTO product_reviews (product_id, naam, beoordeling, datum) VALUES ($id, '$naam', '$beoordeling', '$datum')";
         $conn->query($sql_review);
-        header("Location: ".$_SERVER['REQUEST_URI']); // pagina verversen
+        header("Location: ".$_SERVER['REQUEST_URI']); 
         exit;
     }
 }
@@ -102,71 +102,72 @@ if (isset($_GET['id'])) {
         .product-info h1 {
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
+
         .review {
-    background-color: #ffffff;
-    border-left: 4px solid #555555;
-    padding: 16px 20px;
-    margin: 20px 0;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-}
+            background-color: #ffffff;
+            border-left: 4px solid #555555;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
 
-.review:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-}
+        .review:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
 
-form textarea, form input[type="text"] {
-    width: 100%;
-    padding: 12px 15px;
-    margin: 10px 0 20px;
-    border-radius: 8px;
-    border: 1px solid #cccccc;
-    background-color: #fafafa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 15px;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-    color: #222;
-}
+        form textarea, form input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0 20px;
+            border-radius: 8px;
+            border: 1px solid #cccccc;
+            background-color: #fafafa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 15px;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+            color: #222;
+        }
 
-form textarea {
-    min-height: 120px;
-    resize: vertical;
-}
+        form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
 
-form textarea:focus, form input[type="text"]:focus {
-    border-color: #888888;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
-    outline: none;
-}
+        form textarea:focus, form input[type="text"]:focus {
+            border-color: #888888;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+            outline: none;
+        }
 
-form input[type="submit"] {
-    background-color: #222222;
-    color: white;
-    border: none;
-    padding: 12px 26px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+        form input[type="submit"] {
+            background-color: #222222;
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-form input[type="submit"]:hover {
-    background-color: #000000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+        form input[type="submit"]:hover {
+            background-color: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
 
-form input[type="submit"]:active {
-    transform: scale(0.97);
-}
+        form input[type="submit"]:active {
+            transform: scale(0.97);
+        }
 
-.add-to-cart-button, .edit-product-button {
+        .add-to-cart-button, .edit-product-button {
             display: inline-block;
             padding: 10px 15px;
             margin-top: 15px;
@@ -237,7 +238,7 @@ form input[type="submit"]:active {
                 <p>€<?php echo htmlspecialchars($product['prijs']); ?></p>
                 <p><?php echo nl2br(htmlspecialchars($product['beschrijving'])); ?></p>
 
-                <a href="winkelwagen.php?id=<?php echo htmlspecialchars($id); ?>" class="add-to-cart-button">+<i class='fas fa-shopping-cart'></i></a>
+                <a id="add-to-cart-button" href="winkelwagen.php?id=<?php echo htmlspecialchars($id); ?>&afbeelding=<?php echo urlencode($afbeeldingen[0] ?? 'placeholder.png'); ?>" class="add-to-cart-button">+<i class='fas fa-shopping-cart'></i></a>
                 <a href="wishlist.php?id=<?php echo htmlspecialchars($id); ?>" class="add-to-cart-button">+<i class='fas fa-heart'></i></a>
                 <br><br>
                 <a href="index.php" class="continue-shopping"><i class='fas fa-backward-fast'></i> Terug naar producten</a>
@@ -260,34 +261,45 @@ form input[type="submit"]:active {
             const overlay = document.getElementById('image-overlay');
             const overlayImage = document.getElementById('overlay-image');
             const closeOverlay = document.getElementById('close-overlay');
+            const addToCartButton = document.getElementById('add-to-cart-button');
+
+            function updateCartLink() {
+                const currentImage = mainImage.src.split('/').pop(); // alleen bestandsnaam
+                const productId = <?php echo (int)$id; ?>;
+                addToCartButton.href = `winkelwagen.php?id=${productId}&afbeelding=${encodeURIComponent(currentImage)}`;
+            }
 
             thumbnails.forEach(thumb => {
                 thumb.addEventListener('click', () => {
                     mainImage.src = thumb.src;
+                    updateCartLink();
                 });
             });
 
             mainImage.addEventListener('click', () => {
-                overlayImage.src = mainImage.src;
                 overlay.style.display = 'flex';
+                overlayImage.src = mainImage.src;
             });
 
             closeOverlay.addEventListener('click', () => {
                 overlay.style.display = 'none';
             });
 
+            // Sluit overlay bij klik buiten afbeelding
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
                     overlay.style.display = 'none';
                 }
             });
+
+            // Init link op pagina laden
+            updateCartLink();
         </script>
     <?php else: ?>
         <p>Product niet gevonden.</p>
+        <a href="index.php">Terug naar producten</a>
     <?php endif; ?>
-
 </div>
+ <?php include 'footer.php'; ?>
 </body>
-<?php include 'footer.php'; ?>
-
 </html>

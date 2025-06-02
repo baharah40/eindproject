@@ -1,20 +1,11 @@
 <?php
 include 'connect.php';
 session_start();
-
-// Controleer of de gebruiker is ingelogd en een admin is
-if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
-    header("Location: login.php");
-    exit();
-}
-
-$message = ''; // Bericht voor de gebruiker
-
 // Verwerk het formulier voor het toevoegen van een product
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $naam = $_POST['naam'];
     $prijs = $_POST['prijs'];
-    $afbeeldingen = $_FILES['afbeelding']; // Meerdere bestanden
+    $afbeeldingen = $_FILES['afbeelding']; 
 
     // Beveiliging tegen SQL-injectie en XSS
     $naam = htmlspecialchars($naam);
@@ -32,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ss", $naam, $prijs);
 
         if ($stmt->execute()) {
-            $product_id = $stmt->insert_id; // Verkrijg het ID van het net toegevoegde product
+            $product_id = $stmt->insert_id;
 
             // Loop door alle geüploade afbeeldingen
             foreach ($afbeeldingen['name'] as $key => $afbeelding) {
